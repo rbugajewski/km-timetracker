@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>Activate</key>
+		<string>Normal</string>
+		<key>IsActive</key>
+		<true/>
+		<key>Macros</key>
+		<array>
+			<dict>
+				<key>Actions</key>
+				<array>
+					<dict>
+						<key>Buttons</key>
+						<array>
+							<dict>
+								<key>Button</key>
+								<string>OK</string>
+							</dict>
+							<dict>
+								<key>Button</key>
+								<string>Cancel</string>
+								<key>Cancel</key>
+								<true/>
+							</dict>
+						</array>
+						<key>IsActive</key>
+						<true/>
+						<key>IsDisclosed</key>
+						<true/>
+						<key>MacroActionType</key>
+						<string>PromptForUserInput</string>
+						<key>Prompt</key>
+						<string>Please enter a name and choose the project for the new task.</string>
+						<key>ResultButtonVariable</key>
+						<string>Result Button</string>
+						<key>TimeOutAbortsMacro</key>
+						<true/>
+						<key>Title</key>
+						<string>Start new task</string>
+						<key>Variables</key>
+						<array>
+							<dict>
+								<key>Default</key>
+								<string></string>
+								<key>Variable</key>
+								<string>Name</string>
+							</dict>
+							<dict>
+								<key>Default</key>
+								<string>Project One|Project Two</string>
+								<key>Variable</key>
+								<string>Project</string>
+							</dict>
+							<dict>
+								<key>Default</key>
+								<string></string>
+								<key>Variable</key>
+								<string>Notes</string>
+							</dict>
+						</array>
+					</dict>
+					<dict>
+						<key>DisplayKind</key>
+						<string>Briefly</string>
+						<key>File</key>
+						<data>
+						</data>
+						<key>IsActive</key>
+						<true/>
+						<key>IsDisclosed</key>
+						<true/>
+						<key>MacroActionType</key>
+						<string>ExecuteAppleScript</string>
+						<key>NewFile</key>
+						<string></string>
+						<key>Text</key>
+						<string>tell application "Keyboard Maestro Engine"
+  set myName to make variable with properties {name:"Name"}
+  set theName to value of myName
+  set myProject to make variable with properties {name:"Project"}
+  set theProject to value of myProject
+  set myNotes to make variable with properties {name:"Notes"}
+  set theNotes to value of myNotes
+end tell
+
+tell application "iCal"  tell calendar "Work"    set theDate to current date    set theFullSummary to theProject &amp; ":" &amp; theName    make new event at end with properties {description:theNotes, summary:theFullSummary, start date:theDate, end date:theDate + 5 * minutes}  end tellend tell
+</string>
+						<key>TimeOutAbortsMacro</key>
+						<true/>
+						<key>TrimResults</key>
+						<true/>
+						<key>UseText</key>
+						<true/>
+						<key>Variable</key>
+						<string>Variable</string>
+					</dict>
+				</array>
+				<key>IsActive</key>
+				<true/>
+				<key>Name</key>
+				<string>1) Start work</string>
+				<key>Triggers</key>
+				<array>
+					<dict>
+						<key>FireType</key>
+						<string>Pressed</string>
+						<key>KeyCode</key>
+						<integer>115</integer>
+						<key>MacroTriggerType</key>
+						<string>HotKey</string>
+						<key>Modifiers</key>
+						<integer>4608</integer>
+						<key>TriggerRepeat</key>
+						<false/>
+					</dict>
+				</array>
+				<key>UID</key>
+				<string>DC313367-B42E-4BA4-B2A6-32D7D6AEEE2A</string>
+			</dict>
+		</array>
+		<key>Name</key>
+		<string>Global Macro Group</string>
+		<key>UID</key>
+		<string>E6D5A6B6-0F9A-4B57-9CD8-E58FF7E9F649</string>
+	</dict>
+	<dict>
+		<key>Activate</key>
+		<string>Normal</string>
+		<key>IsActive</key>
+		<true/>
+		<key>Macros</key>
+		<array>
+			<dict>
+				<key>Actions</key>
+				<array>
+					<dict>
+						<key>DisplayKind</key>
+						<string>Briefly</string>
+						<key>File</key>
+						<data>
+						</data>
+						<key>IsActive</key>
+						<true/>
+						<key>IsDisclosed</key>
+						<true/>
+						<key>MacroActionType</key>
+						<string>ExecuteAppleScript</string>
+						<key>NewFile</key>
+						<string></string>
+						<key>Text</key>
+						<string>-- Stop the current task-- Created by Rafael Bugajewski on Tue Aug 30 2011.---- Copyright (c) 2011. All rights reserved.-- http://macscripter.net/viewtopic.php?pid=96383to split(someText, delimiter)	set AppleScript's text item delimiters to delimiter	set someText to someText's text items	set AppleScript's text item delimiters to {""} --&gt; restore delimiters to default value	return someTextend splitset theAdjectives to {"awesome", "great", "groovy", "productive", "procreative", "outstanding", "spectacular", "smashing", "highly efficient"}on durationString(theDuration)	set theDateString to ""	set theMinutes to (theDuration / minutes as integer)	if (theDuration / hours &gt; 1) then		set theDateString to (theDuration / hours as integer) &amp; " h "		set theMinutes to theMinutes - ((theDuration / hours) as integer) * 60	end if		set theDateString to theDateString &amp; theMinutes &amp; " min " &amp; theDuration mod minutes &amp; " s"		return theDateStringend durationStringtell application "iCal"	tell calendar "Work"		set theEvent to last event		set end date of theEvent to current date	end tell	set theDuration to (end date of theEvent) - (start date of theEvent)	set theStartDate to start date of theEvent	set theEndDate to end date of theEvent	set theSummary to summary of theEventend tell-- duration (end date of theEvent) - (start date of theEvent)--set theSplitSummary to split(theSummary, ":")"Congratulations, you worked
+for " &amp; some item of theAdjectives &amp; " " &amp; durationString(theDuration) &amp; ".
+
+Task: " &amp; item 2 of theSplitSummary &amp; "
+Project: " &amp; item 1 of theSplitSummary &amp; "
+Start Date: " &amp; time string of theStartDate &amp; " (" &amp; short date string of theStartDate &amp; ")
+End Date: " &amp; time string of theEndDate &amp; " (" &amp; short date string of theEndDate &amp; ")"
+
+</string>
+						<key>TimeOutAbortsMacro</key>
+						<true/>
+						<key>TrimResults</key>
+						<true/>
+						<key>UseText</key>
+						<true/>
+						<key>Variable</key>
+						<string>Variable</string>
+					</dict>
+				</array>
+				<key>IsActive</key>
+				<true/>
+				<key>Name</key>
+				<string>2) Stop Work</string>
+				<key>Triggers</key>
+				<array>
+					<dict>
+						<key>FireType</key>
+						<string>Pressed</string>
+						<key>KeyCode</key>
+						<integer>119</integer>
+						<key>MacroTriggerType</key>
+						<string>HotKey</string>
+						<key>Modifiers</key>
+						<integer>4608</integer>
+						<key>TriggerRepeat</key>
+						<false/>
+					</dict>
+				</array>
+				<key>UID</key>
+				<string>A710C115-5985-4161-863C-5A249528EC20</string>
+			</dict>
+		</array>
+		<key>Name</key>
+		<string>Global Macro Group</string>
+		<key>UID</key>
+		<string>E6D5A6B6-0F9A-4B57-9CD8-E58FF7E9F649</string>
+	</dict>
+</array>
+</plist>
